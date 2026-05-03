@@ -159,6 +159,47 @@ curl -s http://localhost:8080/api/tasks?userId=1 \
 - Stateless — no sessions
 - `/api/auth/**` is public; all other routes require a valid token
 
+## Future Improvements
+
+### Auth & Security
+- JWT refresh tokens — current tokens expire after 24h with no way to renew without re-login
+- Password reset flow — email-based reset link
+- Rate limiting on `/api/auth/**` — prevent brute force attacks
+- Switch `npm ci` back in Dockerfile once `package-lock.json` is synced locally
+
+### Task Features
+- Due dates — add `dueDate` field to `Task`, show overdue indicator in UI
+- Task priority — LOW / MEDIUM / HIGH enum, sortable in dashboard
+- Task ordering — drag-and-drop reorder within a status column
+- Pagination — `GET /api/tasks` currently returns all tasks; add `page`/`size` params
+- Task search and filter by title
+
+### Stats
+- Completion trend over time — tasks completed per day/week using a line chart
+- Productivity score — percentage of tasks moved to DONE
+- Date range filter for stats
+
+### Frontend
+- Toast notifications — replace silent failures with visible success/error toasts
+- Loading skeletons — better UX than plain "Loading…" text
+- Dark mode — the black/white theme is already halfway there
+- Mobile responsiveness — layout breaks on small screens currently
+- Inline form validation feedback (not just on submit)
+
+### Backend
+- Task tags/labels — many-to-many relationship
+- Soft delete — mark tasks as deleted instead of hard delete, allows undo
+- Audit log — track who changed what and when
+- Input sanitization — strip HTML from title/description fields
+- Proper pagination with `Page<TaskResponse>` from Spring Data
+
+### Infrastructure
+- Environment-specific configs — `application-dev.yaml`, `application-prod.yaml`
+- Health check endpoint — `/actuator/health` via Spring Boot Actuator
+- Nginx SPA fallback — direct URL access (e.g. `/dashboard`) currently returns 404
+- CI/CD pipeline — GitHub Actions to build and test on every push
+- Production secrets management — move away from plain env vars
+
 ## Changelog
 
 ### feat: complete fullstack MVP — views, task store, CORS fix
