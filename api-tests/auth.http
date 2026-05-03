@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Saurav",
+  "email": "saurav@test.com",
+  "password": "password123"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "saurav@test.com",
+  "password": "password123"
+}
+
+### Login — wrong password (expect 403)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "saurav@test.com",
+  "password": "wrongpassword"
+}
+
+### Register — duplicate email (expect 400)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Saurav",
+  "email": "saurav@test.com",
+  "password": "password123"
+}
+
+### Register — validation error, short password (expect 400)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Saurav",
+  "email": "bad@test.com",
+  "password": "short"
+}

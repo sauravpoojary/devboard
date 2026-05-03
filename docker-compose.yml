@@ -17,7 +17,7 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/devboard
       DB_USER: dev
       DB_PASS: dev
-      JWT_SECRET: change-me-in-prod
+      JWT_SECRET: devboard-super-secret-key-change-in-production-min32chars
     networks: [devboard-network]
 
   frontend:
