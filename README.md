@@ -161,6 +161,15 @@ curl -s http://localhost:8080/api/tasks?userId=1 \
 
 ## Changelog
 
+### feat: frontend routing, auth store, axios client
+- Replaced default Vite scaffold in `App.vue` with `<RouterView />`
+- Created `src/router/index.ts` with routes for `/login`, `/register`, `/dashboard`, `/stats`
+- Protected `/dashboard` and `/stats` with `meta: { requiresAuth: true }` and `beforeEach` guard
+- Unauthenticated users are redirected to `/login` automatically
+- Created `src/stores/auth.ts` — Pinia store with `login()`, `register()`, `logout()` actions, token + user persisted to `localStorage`, `isLoggedIn` computed
+- Created `src/api/axios.ts` — single Axios instance with request interceptor (attaches JWT) and response interceptor (401 → logout + redirect)
+- Added placeholder views: `LoginView`, `RegisterView`, `DashboardView`, `StatsView`
+
 ### feat: auth module + JWT security
 - Implemented `AuthService` — register (BCrypt hash) and login (AuthenticationManager)
 - Implemented `AuthController` — `POST /api/auth/register` (201) and `POST /api/auth/login` (200)
