@@ -1,0 +1,30 @@
+services:
+  
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: devboard
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+    ports: ["5432:5432"]
+    networks: [devboard-network]
+
+  backend:
+    build: ./backend
+    ports: ["8080:8080"]
+    depends_on: [postgres]
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/devboard
+      DB_USER: dev
+      DB_PASS: dev
+      JWT_SECRET: change-me-in-prod
+    networks: [devboard-network]
+
+  frontend:
+    build: ./frontend
+    ports: ["5173:80"]
+    depends_on: [backend]
+    networks: [devboard-network]
+
+networks:
+  devboard-network:
