@@ -33,11 +33,10 @@ public class AuthService {
         userRepository.save(user);
 
         String token = jwtUtil.generateToken(user);
-        return new AuthResponse(token, user.getEmail(), user.getName());
+        return new AuthResponse(user.getId(), token, user.getEmail(), user.getName());
     }
 
     public AuthResponse login(LoginRequest request) {
-        // Throws AuthenticationException if credentials are wrong
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
@@ -45,6 +44,6 @@ public class AuthService {
                 .orElseThrow(() -> new IllegalStateException("User not found after authentication"));
 
         String token = jwtUtil.generateToken(user);
-        return new AuthResponse(token, user.getEmail(), user.getName());
+        return new AuthResponse(user.getId(), token, user.getEmail(), user.getName());
     }
 }

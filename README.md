@@ -161,6 +161,21 @@ curl -s http://localhost:8080/api/tasks?userId=1 \
 
 ## Changelog
 
+### feat: complete fullstack MVP — views, task store, CORS fix
+- Implemented `RegisterView` — name/email/password form, error handling, redirects to dashboard
+- Implemented `DashboardView` — full task CRUD (create, edit, delete), status filter tabs, loading/empty states
+- Implemented `StatsView` — summary stat cards + Chart.js bar chart via `vue-chartjs`
+- Created `AppLayout` component — header with nav links, user name, logout button
+- Created `src/stores/task.ts` — Pinia store for task CRUD (fetchTasks, createTask, updateTask, deleteTask)
+- Updated `src/stores/auth.ts` — now stores `id` from auth response for use in API calls
+- Updated `AuthResponse` to include `id` field; `AuthService` passes user ID in both register and login
+- Rewrote `TaskController` + `TaskService` — uses `@AuthenticationPrincipal` instead of `?userId` query param; proper DTOs (`TaskRequest`, `TaskResponse`); ownership check on update/delete
+- Updated `StatsController` — uses `@AuthenticationPrincipal` instead of query param
+- Added `TaskRequest` and `TaskResponse` DTOs under `task/dto/`
+- Fixed CORS — `WebConfig` now allows all local origins; `SecurityConfig` enables `.cors()` so preflight passes Spring Security
+- Added `vue-chartjs@5.3.2` to `package.json`; switched Dockerfile from `npm ci` to `npm install`
+- Fixed TypeScript strict null error in `StatsView`
+
 ### feat: frontend routing, auth store, axios client
 - Replaced default Vite scaffold in `App.vue` with `<RouterView />`
 - Created `src/router/index.ts` with routes for `/login`, `/register`, `/dashboard`, `/stats`

@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 import apiClient from '@/api/axios'
 
-interface User {
+interface AuthUser {
+  id: number
   email: string
   name: string
 }
@@ -11,7 +12,7 @@ interface User {
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('token'))
   const stored = localStorage.getItem('user')
-  const user = ref<User | null>(stored ? JSON.parse(stored) : null)
+  const user = ref<AuthUser | null>(stored ? JSON.parse(stored) : null)
 
   const isLoggedIn = computed(() => !!token.value)
 
@@ -33,9 +34,9 @@ export const useAuthStore = defineStore('auth', () => {
     router.push('/login')
   }
 
-  function _persist(data: { token: string; email: string; name: string }) {
+  function _persist(data: { id: number; token: string; email: string; name: string }) {
     token.value = data.token
-    user.value = { email: data.email, name: data.name }
+    user.value = { id: data.id, email: data.email, name: data.name }
     localStorage.setItem('token', data.token)
     localStorage.setItem('user', JSON.stringify(user.value))
   }
